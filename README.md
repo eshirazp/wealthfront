@@ -24,6 +24,9 @@ The Sign in is a simple page that displays an email and password input fields wi
 
 The page also contains a Create account button that will toggle a state change in the parent (`page.tsx`) to switch to the Create Account layout.
 
+#### Test
+Account should be found with eshirazp@gmail.com / Coolcat1
+
 Bonus: For fun, I had the Wealthfront logo switch by clicking the `here` button. This is using Context / Provider - an over-engineered concept, but wanted to do a little extra for the interview.
 
 ### CreateAccount Layout
