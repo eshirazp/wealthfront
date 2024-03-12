@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Build an account creation form that allows a user to provide a username and password to create an account. Take into consideration how to provide an informative user experience and helpful validation. We recommend you take some time to think about how a user would interact with this UI before implementing it in code.
 
 ## Getting Started
 
@@ -6,31 +6,37 @@ First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## System Design
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+The web app starts with a Sign In layout (`signin_manual`) that allows the users to either Sign in or go to the Create Accont layout (`create_accont`). All layouts are using a container / presentation pattern. All pages are responsive. There is no real Database or backend server - that is simulated with `api/accout.ts`.
 
-## Learn More
+### Backend / DB
 
-To learn more about Next.js, take a look at the following resources:
+The `api/account.ts` holds the fake network calls and database that checks a valid email / password and can add users. There is a `GET` and a `POST` fake network call. This simulates interacting with a real service, but I wanted this to be easy enough to check the web app all the way.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Sign In Layout
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The Sign in is a simple page that displays an email and password input fields with a submit button. The email must be a valid email format. Once the user clicks the Sign In button, a fake network call is made in the container (`signin_manual/index.tsx`) to check if the email and password match an entry in the database. A status message is displayed at the top based on the results.
 
-## Deploy on Vercel
+The page also contains a Create account button that will toggle a state change in the parent (`page.tsx`) to switch to the Create Account layout.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Bonus: For fun, I had the Wealthfront logo switch by clicking the `here` button. This is using Context / Provider - an over-engineered concept, but wanted to do a little extra for the interview.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### CreateAccount Layout
+
+The Create Account layout contains all the fields necessary to create an account. Checks are run on all fields except the Address field. First and Last Name need to have some characters, Email address must be a valid email and Password and Confirm Password must match as well as contain a number and a letter. Users can check if the password matches all credentials in the helpful element on the right. Any error message is dispalyed in place of the Submit button with a specific message. A last check (to avoid unnecessary "network calls") is to make sure the email is unique or else a message is displayed.
+
+If the user passes all checks, the user is redirected to the Sign in page to try again.
+
+## Techs used
+
+- Typescript
+- NextJs (`Image`, `Link`)
+- Tailwind (first time - wanted to check it out :))
+- React (hooks, Content / Provider)
+- Functional components
+- Reusable components
